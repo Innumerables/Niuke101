@@ -158,3 +158,30 @@ func hasCycle(head *ListNode) bool {
 	}
 	return false
 }
+
+// 判断出链表中环的入口点
+func EntryNodeOfLoop(pHead *ListNode) *ListNode {
+	if pHead.Next == nil {
+		return nil
+	}
+	mhead := pHead
+	khead := pHead
+	flag := 0
+	for khead != nil && khead.Next != nil {
+		mhead = mhead.Next
+		khead = khead.Next.Next
+		if mhead == khead {
+			flag = 1
+			break
+		}
+	}
+	if flag == 0 {
+		return nil
+	}
+	mhead = pHead
+	for mhead != khead {
+		mhead = mhead.Next
+		khead = khead.Next
+	}
+	return mhead
+}
