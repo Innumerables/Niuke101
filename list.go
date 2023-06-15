@@ -78,11 +78,83 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 		head = head.Next
 		i++
 	}
+	if head == nil || i < k {
+		return head
+	}
 	head = thead.Next
 	mhead := thead
-	for j := 0; j < i/k; j++ {
-		for t := 0; t < k; t++ {
-			tmp:=
+	for j := 0; j < i/k; j++ { //判断循环几次，当剩余节点数小于k时，不变
+		for t := 1; t < k; t++ { //利用头插法逆转对应k的顺序
+			tmp := head.Next
+			head.Next = tmp.Next
+			tmp.Next = mhead.Next
+			mhead.Next = tmp
+		}
+		//将节点移至到下一个k前一个节点
+		mhead = head
+		head = head.Next
+	}
+	return thead.Next
+}
+
+// 合并两个排序的链表，两个链表为递增的
+func Merge(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
+	// write code here
+	if pHead1 == nil {
+		return pHead2
+	}
+	if pHead2 == nil {
+		return pHead1
+	}
+	thead := &ListNode{}
+	zhead := thead
+	for pHead1 != nil && pHead2 != nil {
+		if pHead1.Val < pHead2.Val {
+			thead.Next = pHead1
+			pHead1 = pHead1.Next
+		} else {
+			thead.Next = pHead2
+			pHead2 = pHead2.Next
+		}
+		thead = thead.Next
+	}
+	if pHead1 != nil {
+		thead.Next = pHead1
+	} else {
+		thead.Next = pHead2
+	}
+	return zhead.Next
+}
+
+// 合并k个升序的链表,利用上述两个链表合并，依次合并k个升序链表
+func mergeKLists(lists []*ListNode) *ListNode {
+	// write code here
+	k := len(lists)
+	var head *ListNode
+	if k == 0 {
+		return head
+	}
+	head = lists[0]
+	for i := 1; i < k; i++ {
+		head = Merge(head, lists[i])
+	}
+	return head
+}
+
+// 判断链表中是否有环
+func hasCycle(head *ListNode) bool {
+	// write code here
+	if head == nil {
+		return false
+	}
+	mhead := head
+	khead := head
+	for khead != nil && khead.Next != nil {
+		mhead = mhead.Next
+		khead = khead.Next.Next
+		if mhead == khead {
+			return true
 		}
 	}
+	return false
 }
