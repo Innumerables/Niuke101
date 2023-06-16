@@ -185,3 +185,55 @@ func EntryNodeOfLoop(pHead *ListNode) *ListNode {
 	}
 	return mhead
 }
+
+// 链表中倒数最后k个节点
+func FindKthToTail(pHead *ListNode, k int) *ListNode {
+	// write code here
+	if pHead == nil {
+		return nil
+	}
+	thead := pHead
+	i := 1
+	for pHead != nil {
+		pHead = pHead.Next
+		i += 1
+	}
+	if k > i {
+		return thead
+	}
+	pHead = thead
+	for j := 1; j+k != i; j++ {
+		pHead = pHead.Next
+	}
+	return pHead.Next
+}
+
+// 链表中倒数第k个节点，双指针法
+func FindKthToTail2(pHead *ListNode, k int) *ListNode {
+	if pHead == nil {
+		return pHead
+
+	}
+	thead := pHead
+	for i := 0; i < k; i++ {
+		if pHead == nil {
+			return pHead
+		}
+		pHead = pHead.Next
+	}
+	for pHead != nil {
+		thead = thead.Next
+		pHead = pHead.Next
+	}
+	return thead
+}
+
+// 删除链表中倒数第n个节点
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	// write code here
+	thead := &ListNode{}
+	thead.Next = head
+	for head != nil {
+
+	}
+}
