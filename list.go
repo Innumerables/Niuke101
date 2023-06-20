@@ -228,7 +228,7 @@ func FindKthToTail2(pHead *ListNode, k int) *ListNode {
 	return thead
 }
 
-// 删除链表中倒数第n个节点
+// 删除链表中的倒数第n个节点
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	// write code here
 	if head == nil {
@@ -245,7 +245,6 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 		return thead.Next
 	}
 	mid := thead
-	// 找到前一个节点
 	for j := 0; j+n != t; j++ {
 		mid = mid.Next
 	}
