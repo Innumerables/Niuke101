@@ -5,7 +5,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-// 反转链表
+// BM1 反转链表
 func ReverseList(pHead *ListNode) *ListNode {
 	var dhead *ListNode
 	if pHead == nil || pHead.Next == nil {
@@ -22,7 +22,7 @@ func ReverseList(pHead *ListNode) *ListNode {
 	return pHead
 }
 
-// 链表内指定区间反转,找到前一个在区间内反转
+// BM2 链表内指定区间反转,找到前一个在区间内反转
 func reverseBetween(head *ListNode, m int, n int) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
@@ -47,7 +47,7 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 	return thead.Next
 }
 
-// 采用头插法的方式将后方的节点依次插入到指定位置M的后方
+// BM2 采用头插法的方式将后方的节点依次插入到指定位置M的后方
 func reverseBetween2(head *ListNode, m int, n int) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
@@ -68,7 +68,7 @@ func reverseBetween2(head *ListNode, m int, n int) *ListNode {
 	return thead.Next
 }
 
-// 链表中的节点每k个一组反转
+// BM3  链表中的节点每k个一组反转
 func reverseKGroup(head *ListNode, k int) *ListNode {
 	// write code here
 	thead := &ListNode{}
@@ -97,7 +97,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	return thead.Next
 }
 
-// 合并两个排序的链表，两个链表为递增的
+// BM4 合并两个排序的链表，两个链表为递增的
 func Merge(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 	// write code here
 	if pHead1 == nil {
@@ -126,7 +126,7 @@ func Merge(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 	return zhead.Next
 }
 
-// 合并k个升序的链表,利用上述两个链表合并，依次合并k个升序链表
+// BM5 合并k个升序的链表,利用上述两个链表合并，依次合并k个升序链表
 func mergeKLists(lists []*ListNode) *ListNode {
 	// write code here
 	k := len(lists)
@@ -141,7 +141,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	return head
 }
 
-// 判断链表中是否有环
+// BM6 判断链表中是否有环
 func hasCycle(head *ListNode) bool {
 	// write code here
 	if head == nil {
@@ -159,7 +159,7 @@ func hasCycle(head *ListNode) bool {
 	return false
 }
 
-// 判断出链表中环的入口点
+// BM7 判断出链表中环的入口点
 func EntryNodeOfLoop(pHead *ListNode) *ListNode {
 	if pHead.Next == nil {
 		return nil
@@ -186,7 +186,7 @@ func EntryNodeOfLoop(pHead *ListNode) *ListNode {
 	return mhead
 }
 
-// 链表中倒数最后k个节点
+// BM8 链表中倒数最后k个节点
 func FindKthToTail(pHead *ListNode, k int) *ListNode {
 	// write code here
 	if pHead == nil {
@@ -208,7 +208,7 @@ func FindKthToTail(pHead *ListNode, k int) *ListNode {
 	return pHead.Next
 }
 
-// 链表中倒数第k个节点，双指针法
+// BM8 链表中倒数第k个节点，双指针法
 func FindKthToTail2(pHead *ListNode, k int) *ListNode {
 	if pHead == nil {
 		return pHead
@@ -228,7 +228,7 @@ func FindKthToTail2(pHead *ListNode, k int) *ListNode {
 	return thead
 }
 
-// 删除链表中的倒数第n个节点
+// BM9 删除链表中的倒数第n个节点
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	// write code here
 	if head == nil {
@@ -252,7 +252,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	return thead.Next
 }
 
-// 两个链表中的第一个公共的节点
+// BBM10 两个链表中的第一个公共的节点
 func FindFirstCommonNode(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 	// write code here
 	if pHead1 == nil || pHead2 == nil {
@@ -261,11 +261,11 @@ func FindFirstCommonNode(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 	p1, p2 := 0, 0
 	mid1 := pHead1
 	mid2 := pHead2
-	for pHead1 != nil {
+	for mid1 != nil {
 		p1 += 1
 		mid1 = mid1.Next
 	}
-	for pHead2 != nil {
+	for mid2 != nil {
 		p2 += 1
 		mid2 = mid2.Next
 	}
