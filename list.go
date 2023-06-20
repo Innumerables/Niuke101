@@ -251,3 +251,44 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	mid.Next = mid.Next.Next
 	return thead.Next
 }
+
+// 两个链表中的第一个公共的节点
+func FindFirstCommonNode(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
+	// write code here
+	if pHead1 == nil || pHead2 == nil {
+		return nil
+	}
+	p1, p2 := 0, 0
+	mid1 := pHead1
+	mid2 := pHead2
+	for pHead1 != nil {
+		p1 += 1
+		mid1 = mid1.Next
+	}
+	for pHead2 != nil {
+		p2 += 1
+		mid2 = mid2.Next
+	}
+	if p1 > p2 {
+		t := p1 - p2
+		for t > 0 && pHead1 != nil {
+			pHead1 = pHead1.Next
+			t -= 1
+		}
+		for pHead1 != pHead2 {
+			pHead1 = pHead1.Next
+			pHead2 = pHead2.Next
+		}
+	} else {
+		t := p2 - p1
+		for t > 0 && pHead2 != nil {
+			pHead2 = pHead2.Next
+			t -= 1
+		}
+		for pHead1 != pHead2 {
+			pHead1 = pHead1.Next
+			pHead2 = pHead2.Next
+		}
+	}
+	return pHead1
+}
