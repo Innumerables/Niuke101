@@ -252,7 +252,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	return thead.Next
 }
 
-// BBM10 两个链表中的第一个公共的节点
+// BM10 两个链表中的第一个公共的节点
 func FindFirstCommonNode(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 	// write code here
 	if pHead1 == nil || pHead2 == nil {
@@ -291,4 +291,42 @@ func FindFirstCommonNode(pHead1 *ListNode, pHead2 *ListNode) *ListNode {
 		}
 	}
 	return pHead1
+}
+
+// BM11 两个链表相加，利用之前的反转链表，将两个链表反转，然后相加计算值
+func addInList(head1 *ListNode, head2 *ListNode) *ListNode {
+	// write code here
+	thead := &ListNode{}
+	if head1 == nil {
+		return head2
+	}
+	if head2 == nil {
+		return head1
+	}
+	head1 = ReverseList(head1)
+	head2 = ReverseList(head2)
+	midsum := 0
+	midhead := thead
+	for head1 != nil || head2 != nil {
+		midnode := &ListNode{Val: midsum}
+		if head1 != nil {
+			midnode.Val = midnode.Val + head1.Val
+			head1 = head1.Next
+		}
+		if head2 != nil {
+			midnode.Val = midnode.Val + head2.Val
+			head2 = head2.Next
+		}
+		//以此来获得是否大于10,是否向前进位
+		midsum = midnode.Val / 10
+		midnode.Val = midnode.Val % 10 //获得小于10的当前节点的数值
+		midhead.Next = midnode
+		midhead = midhead.Next
+	}
+	if midsum > 0 { //判断最前位是否有进位
+		midnode := &ListNode{Val: midsum}
+		midhead.Next = midnode
+	}
+	thead = ReverseList(thead.Next)
+	return thead
 }
