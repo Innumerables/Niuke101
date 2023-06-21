@@ -303,7 +303,7 @@ func addInList(head1 *ListNode, head2 *ListNode) *ListNode {
 	if head2 == nil {
 		return head1
 	}
-	head1 = ReverseList(head1)
+	head1 = ReverseList(head1) //链表反转函数ReverseList
 	head2 = ReverseList(head2)
 	midsum := 0
 	midhead := thead
@@ -329,4 +329,27 @@ func addInList(head1 *ListNode, head2 *ListNode) *ListNode {
 	}
 	thead = ReverseList(thead.Next)
 	return thead
+}
+
+//BM12 单链表的排序
+
+func sortInList1(head *ListNode) *ListNode { //超时算法，选择排序O（n^2)
+	// write code here
+	thead := &ListNode{}
+	thead.Next = head
+	for head.Next != nil {
+		fast := head.Next
+		min := head
+		for fast != nil {
+			if fast.Val < min.Val {
+				min = fast
+			}
+			fast = fast.Next
+		}
+		tmp := min.Val
+		min.Val = head.Val
+		head.Val = tmp
+		head = head.Next
+	}
+	return thead.Next
 }
