@@ -353,3 +353,8 @@ func sortInList1(head *ListNode) *ListNode { //超时算法，选择排序O（n^
 	}
 	return thead.Next
 }
+
+// BM12 单链表的排序 分治法归并排序
+func sortInList(head *ListNode) *ListNode {
+
+}
