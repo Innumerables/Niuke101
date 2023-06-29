@@ -58,6 +58,84 @@ func findPeakElement(nums []int) int {
 }
 
 //BM20 数组中的逆序对 前面一个数字大于后边的数字就是一个逆序对，求出总数
+//主要思想，利用归并排序中合并的时侯来计算总数，使用全局变量记录总数
+var (
+	count = 0
+)
+
 func InversePairs(nums []int) int {
 	// write code here
+	l := len(nums)
+	if l < 2 {
+		return 0
+	}
+	merge1(nums, 0, l-1)
+	return count
+}
+
+func merge1(nums []int, left, right int) {
+	mid := (left + right) / 2
+	if left < right {
+		merge1(nums, left, mid)
+		merge1(nums, mid+1, right)
+		mergeCount(nums, left, mid, right)
+	}
+}
+func mergeCount(nums []int, left, mid, right int) {
+	arr := make([]int, right-left+1)
+	c := 0
+	l := left
+	m := mid + 1
+	for l <= mid && m <= right {
+		if nums[l] <= nums[m] {
+			arr[c] = nums[l]
+			l += 1
+			c += 1
+		} else { //当切片前的大于切片右的，因为越靠前越小，因此在此之后到两者交接处都满足>该值，因此加上mid+1-l
+			arr[c] = nums[m]
+			count = count + mid + 1 - l
+			m += 1
+			c += 1
+		}
+	}
+	for l <= mid {
+		arr[c] = nums[l]
+		c += 1
+		l += 1
+	}
+	for m <= right {
+		arr[c] = nums[m]
+		c += 1
+		m += 1
+	}
+	for k := 0; k < right-left+1; k++ {
+		nums[left+k] = arr[k]
+	}
+}
+
+//BM21 旋转数组中的最小数字，给定一个升序数组，将开始的若干个元素放到末尾，[1,2,3,4,5]变为[3,4,5,1,2]，求这个数组的最小值
+//根据数组的规律，先算中间值，如果中间值大于左右边值，说明最小值存在于mid+1--right之间
+//如果之间值小于最右边值，不能确定该值是否为最小值，right移动到mid,向前测试，两者相等只能减小空间继续
+func minNumberInRotateArray(nums []int) int {
+	// write code here
+	l := len(nums)
+	left := 0
+	right := l - 1
+	for left < right {
+		mid := (left + right) / 2
+		if nums[mid] > nums[right] {
+			left = mid + 1
+		} else if nums[mid] < nums[right] {
+			right = mid
+		} else {
+			right--
+		}
+	}
+	return nums[left]
+}
+
+//BM22 比较版本号
+func compare(version1 string, version2 string) int {
+	// write code here
+
 }
