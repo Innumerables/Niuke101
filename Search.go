@@ -1,8 +1,13 @@
 package main
 
+import (
+	"strconv"
+	"strings"
+)
+
 //牛客101 二分查找/排序，BM17-BM22
 
-//BM17 二分查找 在给定一个升序的序列中找出目标值的位置
+// BM17 二分查找 在给定一个升序的序列中找出目标值的位置
 func search(nums []int, target int) int {
 	l := len(nums)
 	if l == 0 {
@@ -31,8 +36,8 @@ func search(nums []int, target int) int {
 	return -1
 }
 
-//BM18 二维数组中的查找
-//利用之前的二分查找，将二维数组取出一维依次的使用二分查找，判断是否存在
+// BM18 二维数组中的查找
+// 利用之前的二分查找，将二维数组取出一维依次的使用二分查找，判断是否存在
 func Find(target int, array [][]int) bool {
 	l := len(array)
 	for i := 0; i < l; i++ {
@@ -44,7 +49,7 @@ func Find(target int, array [][]int) bool {
 	return false
 }
 
-//BM19 寻找峰值 无序数组峰值元素严格大于左右相邻值的元素，数组可能存在多个峰值，返回任意一个即可
+// BM19 寻找峰值 无序数组峰值元素严格大于左右相邻值的元素，数组可能存在多个峰值，返回任意一个即可
 func findPeakElement(nums []int) int {
 	l := len(nums)
 	for i := 0; i < l-1; i++ {
@@ -57,8 +62,8 @@ func findPeakElement(nums []int) int {
 	return 0
 }
 
-//BM20 数组中的逆序对 前面一个数字大于后边的数字就是一个逆序对，求出总数
-//主要思想，利用归并排序中合并的时侯来计算总数，使用全局变量记录总数
+// BM20 数组中的逆序对 前面一个数字大于后边的数字就是一个逆序对，求出总数
+// 主要思想，利用归并排序中合并的时侯来计算总数，使用全局变量记录总数
 var (
 	count = 0
 )
@@ -113,9 +118,9 @@ func mergeCount(nums []int, left, mid, right int) {
 	}
 }
 
-//BM21 旋转数组中的最小数字，给定一个升序数组，将开始的若干个元素放到末尾，[1,2,3,4,5]变为[3,4,5,1,2]，求这个数组的最小值
-//根据数组的规律，先算中间值，如果中间值大于左右边值，说明最小值存在于mid+1--right之间
-//如果之间值小于最右边值，不能确定该值是否为最小值，right移动到mid,向前测试，两者相等只能减小空间继续
+// BM21 旋转数组中的最小数字，给定一个升序数组，将开始的若干个元素放到末尾，[1,2,3,4,5]变为[3,4,5,1,2]，求这个数组的最小值
+// 根据数组的规律，先算中间值，如果中间值大于左右边值，说明最小值存在于mid+1--right之间
+// 如果之间值小于最右边值，不能确定该值是否为最小值，right移动到mid,向前测试，两者相等只能减小空间继续
 func minNumberInRotateArray(nums []int) int {
 	// write code here
 	l := len(nums)
@@ -134,8 +139,45 @@ func minNumberInRotateArray(nums []int) int {
 	return nums[left]
 }
 
-//BM22 比较版本号
+// BM22 比较版本号,遇到0自动跳过
+// 主要思想：利用strings.Split 函数将字符串拆分，拆分后返回便是以.分割的切片，然后转换为int类型，比较切片大小即可
 func compare(version1 string, version2 string) int {
 	// write code here
-
+	v1 := strings.Split(version1, ".")
+	v2 := strings.Split(version2, ".")
+	l1 := len(v1)
+	l2 := len(v2)
+	i := 0
+	for i < l1 && i < l2 {
+		tmp1, _ := strconv.Atoi(v1[i])
+		tmp2, _ := strconv.Atoi(v2[i])
+		if tmp1 > tmp2 {
+			return 1
+		} else if tmp1 < tmp2 {
+			return -1
+		} else {
+			i += 1
+		}
+	}
+	if i == l1 && i == l2 {
+		return 0
+	} else if i < l1 {
+		for i < l1 {
+			tmp1, _ := strconv.Atoi(v1[i])
+			if tmp1 != 0 {
+				return 1
+			}
+			i += 1
+		}
+		return 0
+	} else {
+		for i < l2 {
+			tmp2, _ := strconv.Atoi(v2[i])
+			if tmp2 != 0 {
+				return -1
+			}
+			i += 1
+		}
+		return 0
+	}
 }
