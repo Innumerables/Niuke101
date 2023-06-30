@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
+import "fmt"
 
 // 生成相应的二维数组
 func createArry(l, m int) [][]int {
@@ -29,12 +25,29 @@ func main() {
 	// a := []int{1, 2, 3, 4, 5, 6, 7, 0}
 	// b := InversePairs(a)
 	// fmt.Println(b)
-	demo := "1.01.01.21.00"
-	string_slice := strings.Split(demo, ".")
+	// demo := "1.01.01.21.00"
+	// string_slice := strings.Split(demo, ".")
 
-	fmt.Println("result:", string_slice)
-	fmt.Println("len:", len(string_slice))
-	fmt.Println("cap:", cap(string_slice))
-	tt, _ := strconv.Atoi(string_slice[4])
-	fmt.Printf("%T,%v", tt, tt)
+	// fmt.Println("result:", string_slice)
+	// fmt.Println("len:", len(string_slice))
+	// fmt.Println("cap:", cap(string_slice))
+	// tt, _ := strconv.Atoi(string_slice[4])
+	// fmt.Printf("%T,%v", tt, tt)
+	root := &TreeNode{
+		Val: 1,
+		Left: &TreeNode{
+			Val: 2,
+			Left: &TreeNode{
+				Val: 4,
+			},
+			Right: &TreeNode{
+				Val: 5,
+			},
+		},
+		Right: &TreeNode{
+			Val: 3,
+		},
+	}
+	res := preorderTraversal(root)
+	fmt.Println(res)
 }
