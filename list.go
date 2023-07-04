@@ -442,7 +442,7 @@ func mergeLink(l1, l2 *ListNode) *ListNode {
 	return newH.Next
 }
 
-// BM13 判断链表是否为会问结构,借助数组，将链表值按顺序存入数组中，判断数组中值是否为回文结构
+// BM13 判断链表是否为回文结构,借助数组，将链表值按顺序存入数组中，判断数组中值是否为回文结构
 func isPail(head *ListNode) bool {
 	// write code here
 	if head == nil {
