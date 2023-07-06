@@ -265,3 +265,112 @@ func mergeTrees(t1 *TreeNode, t2 *TreeNode) *TreeNode {
 	t1.Right = mergeTrees(t1.Right, t2.Right)
 	return t1
 }
+
+//BM33 二叉树的镜像
+func Mirror(pRoot *TreeNode) *TreeNode {
+	// write code here
+	if pRoot == nil {
+		return nil
+	}
+	Mirror(pRoot.Left)
+	Mirror(pRoot.Right)
+	pRoot.Left, pRoot.Right = pRoot.Right, pRoot.Left
+	return pRoot
+}
+
+//BM34判断是否是二叉搜索树
+func isValidBST(root *TreeNode) bool {
+	// write code here
+	if root == nil {
+		return false
+	}
+	//引入一个存储二叉树的切片，用来遍历
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		if node.Left != nil && node.Right != nil {
+			if node.Left.Val > node.Val || node.Right.Val < node.Val { //判断此节点的左右子树是否满足
+				return false
+			}
+			if node.Left.Right != nil && node.Left.Right.Val > node.Val { //防止该节点左子树的右节点大于该节点值
+				return false
+			}
+			if node.Right.Left != nil && node.Right.Left.Val < node.Val { //防止该节点的右子树的左节点大于该节点的值
+				return false
+			}
+			queue = append(queue, node.Left, node.Right)
+			continue
+		} else if node.Left != nil {
+			if node.Left.Val > node.Val {
+				return false
+			}
+			queue = append(queue, node.Left)
+			continue
+		} else if node.Right != nil {
+			if node.Right.Val < node.Val {
+				return false
+			}
+			queue = append(queue, node.Right)
+		}
+	}
+	return true
+}
+
+//BM35 判断是不是完全二叉树
+func isCompleteTree(root *TreeNode) bool {
+	// write code here
+	queue := []*TreeNode{root}
+	flag := 0 //叶子节点终止条件
+	//当flag为1时，表明该节点为叶子节点，或为该节点为非满树，此后的节点肯定没有叶子节点。当存在叶子节点时既不是完全二叉树
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		if node.Left == nil && node.Right == nil {
+			flag = 1
+			continue
+		} else if node.Left == nil && node.Right != nil {
+			return false
+		} else if node.Left != nil && node.Right != nil {
+			if flag == 1 {
+				return false
+			}
+			queue = append(queue, node.Left, node.Right)
+			continue
+		} else if node.Left != nil && node.Right == nil {
+			if flag == 1 {
+				return false
+			}
+			queue = append(queue, node.Left)
+			flag = 1
+		}
+	}
+	return true
+}
+
+//第二种解法
+func isCompleteTree1(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	notComplete := false
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		tempQueue := []*TreeNode{}
+		for _, node := range queue {
+			if node == nil {
+				notComplete = true
+				continue
+			}
+			if notComplete {
+				return false // 第二次出现空节点
+			}
+			//nil加紧切片作为判断依据
+			tempQueue = append(tempQueue, node.Left)
+			tempQueue = append(tempQueue, node.Right)
+		}
+		queue = tempQueue
+	}
+
+	return true
+}
