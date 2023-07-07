@@ -1,14 +1,18 @@
 package main
 
-//二叉树相关题目
+import (
+	"math"
+)
+
+// 二叉树相关题目
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
 
-//BM23 二叉树的前序遍历\
-//递归的方式实现
+// BM23 二叉树的前序遍历\
+// 递归的方式实现
 func preorderTraversal(root *TreeNode) []int {
 	// write code here
 	res := make([]int, 0)
@@ -36,7 +40,7 @@ func preorderTraversal(root *TreeNode) []int {
 // 	preOrder(res, root.Right)
 // }
 
-//非递归的方式实现，前序遍历
+// 非递归的方式实现，前序遍历
 func preorderTraversalNo(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
@@ -58,7 +62,7 @@ func preorderTraversalNo(root *TreeNode) []int {
 	return res
 }
 
-//BM26 二叉树的层序遍历
+// BM26 二叉树的层序遍历
 func levelOrder(root *TreeNode) [][]int {
 	if root == nil {
 		return [][]int{}
@@ -84,7 +88,7 @@ func levelOrder(root *TreeNode) [][]int {
 	return res
 }
 
-//BM27 按之字形顺序打印二叉树
+// BM27 按之字形顺序打印二叉树
 func Print(pRoot *TreeNode) [][]int {
 	// write code here
 	if pRoot == nil {
@@ -118,7 +122,7 @@ func Print(pRoot *TreeNode) [][]int {
 	return res
 }
 
-//BM28 二叉树最大的深度
+// BM28 二叉树最大的深度
 func maxDepth(root *TreeNode) int {
 	// write code here
 	if root == nil {
@@ -143,7 +147,7 @@ func maxDepth(root *TreeNode) int {
 	return res
 }
 
-//递归的方式实现获得最大深度
+// 递归的方式实现获得最大深度
 func maxDepth1(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -160,7 +164,7 @@ func max(l, r int) int {
 	return r
 }
 
-//BM29 二叉树中和为某一值的路径
+// BM29 二叉树中和为某一值的路径
 func hasPathSum(root *TreeNode, sum int) bool {
 	// write code here
 	if root == nil {
@@ -172,8 +176,8 @@ func hasPathSum(root *TreeNode, sum int) bool {
 	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val) //减去所经过的节点的值
 }
 
-//BM30 二叉搜索树于双向链表
-//利用分治法来合并二叉搜索树为双向链表
+// BM30 二叉搜索树于双向链表
+// 利用分治法来合并二叉搜索树为双向链表
 func Convert(pRootOfTree *TreeNode) *TreeNode {
 	// write code here
 	if pRootOfTree == nil {
@@ -187,7 +191,7 @@ func Convert(pRootOfTree *TreeNode) *TreeNode {
 	return left
 }
 
-//分树阶段直到叶子节再向上合并
+// 分树阶段直到叶子节再向上合并
 func splitTree(pRootOfTree *TreeNode) *TreeNode {
 	//判断是否为叶子节点
 	if pRootOfTree.Left == nil && pRootOfTree.Right == nil {
@@ -205,7 +209,7 @@ func splitTree(pRootOfTree *TreeNode) *TreeNode {
 	return mergeTree(pRootOfTree, left, right)
 }
 
-//合并阶段
+// 合并阶段
 func mergeTree(pRootOfTree, left, right *TreeNode) *TreeNode {
 	//判断left是否为空，为空则不需要找到最右边的节点连接
 	if left != nil {
@@ -229,7 +233,7 @@ func mergeTree(pRootOfTree, left, right *TreeNode) *TreeNode {
 	}
 }
 
-//BM31 对称的二叉树
+// BM31 对称的二叉树
 func isSymmetrical(pRoot *TreeNode) bool {
 	// write code here
 	if pRoot == nil {
@@ -248,7 +252,7 @@ func isSym(left, right *TreeNode) bool {
 	return left.Val == right.Val && isSym(left.Left, right.Right) && isSym(left.Right, right.Left)
 }
 
-//BM32 合并二叉树
+// BM32 合并二叉树
 func mergeTrees(t1 *TreeNode, t2 *TreeNode) *TreeNode {
 	// write code here
 	if t1 == nil && t2 == nil {
@@ -266,7 +270,7 @@ func mergeTrees(t1 *TreeNode, t2 *TreeNode) *TreeNode {
 	return t1
 }
 
-//BM33 二叉树的镜像
+// BM33 二叉树的镜像
 func Mirror(pRoot *TreeNode) *TreeNode {
 	// write code here
 	if pRoot == nil {
@@ -278,7 +282,7 @@ func Mirror(pRoot *TreeNode) *TreeNode {
 	return pRoot
 }
 
-//BM34判断是否是二叉搜索树
+// BM34判断是否是二叉搜索树
 func isValidBST(root *TreeNode) bool {
 	// write code here
 	if root == nil {
@@ -317,7 +321,7 @@ func isValidBST(root *TreeNode) bool {
 	return true
 }
 
-//BM35 判断是不是完全二叉树
+// BM35 判断是不是完全二叉树
 func isCompleteTree(root *TreeNode) bool {
 	// write code here
 	queue := []*TreeNode{root}
@@ -348,7 +352,7 @@ func isCompleteTree(root *TreeNode) bool {
 	return true
 }
 
-//第二种解法
+// 第二种解法
 func isCompleteTree1(root *TreeNode) bool {
 	if root == nil {
 		return true
@@ -373,4 +377,61 @@ func isCompleteTree1(root *TreeNode) bool {
 	}
 
 	return true
+}
+
+// BM36 判断是不是平衡二叉树
+func IsBalanced_Solution(pRoot *TreeNode) bool {
+	// write code here
+	if pRoot == nil {
+		return false
+	}
+	left := IsBalanced(pRoot.Left)
+	right := IsBalanced(pRoot.Right)
+	mid := left - right
+	if math.Abs(float64(mid)) > 1 { //判断该节点是否满足平衡二叉树
+		return false
+	}
+	return IsBalanced_Solution(pRoot.Left) && IsBalanced_Solution(pRoot.Right) //判断其孩子节点是否满足平衡二叉树
+}
+
+func IsBalanced(root *TreeNode) int { //求出最大高度
+	if root == nil {
+		return 0
+	}
+	left := IsBalanced(root.Left)
+	right := IsBalanced(root.Right)
+	r := max(left, right) + 1
+	return r
+}
+
+// BM37 二叉搜索树的最近公共祖先
+func lowestCommonAncestor1(root *TreeNode, p int, q int) int {
+	// write code here
+	if p < root.Val && q < root.Val { //说明祖先在左子树
+		return lowestCommonAncestor(root.Left, p, q)
+	}
+	if p > root.Val && q > root.Val { //说明祖先在右子树
+		return lowestCommonAncestor(root.Right, p, q)
+	}
+	return root.Val
+}
+
+// BM38 在二叉树中找到两个节点的最近公共祖先
+func lowestCommonAncestor(root *TreeNode, o1 int, o2 int) int {
+	if root == nil {
+		return -1
+	}
+	if root.Val == o1 || root.Val == o2 { //若有任一值相等，则该节点即为最近公共祖先
+		return root.Val
+	}
+	left := lowestCommonAncestor(root.Left, o1, o2)
+	right := lowestCommonAncestor(root.Right, o1, o2)
+	if left == -1 { //两个节点都在右子树中
+		return right
+	}
+	if right == -1 { //两个节点都在左子树中
+		return left
+	}
+	//若两者都不为-1 则存在于该节点的左右子树中
+	return root.Val
 }
