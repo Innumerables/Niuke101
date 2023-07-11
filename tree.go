@@ -2,6 +2,8 @@ package main
 
 import (
 	"math"
+	"strconv"
+	"strings"
 )
 
 // 二叉树相关题目
@@ -434,4 +436,96 @@ func lowestCommonAncestor(root *TreeNode, o1 int, o2 int) int {
 	}
 	//若两者都不为-1 则存在于该节点的左右子树中
 	return root.Val
+}
+
+// BM39 序列化二叉树
+func Serialize(root *TreeNode) string {
+	if root == nil {
+		return "#"
+	}
+	return strconv.Itoa(root.Val) + "," + Serialize(root.Left) + "," + Serialize(root.Right)
+}
+
+func Deserialize(s string) *TreeNode {
+	str := strings.Split(s, ",")
+	return buildTree(&str)
+
+}
+
+func buildTree(s *[]string) *TreeNode {
+	rootValue := (*s)[0]
+	*s = (*s)[1:]
+	if rootValue == "#" {
+		return nil
+	}
+	val, _ := strconv.Atoi(rootValue)
+	root := &TreeNode{
+		Val:   val,
+		Left:  nil,
+		Right: nil,
+	}
+	root.Left = buildTree(s)
+	root.Right = buildTree(s)
+	return root
+}
+
+// BM40 重建二叉树
+// 根据前序遍历和中序遍历构建二叉树
+func reConstructBinaryTree(preOrder []int, vinOrder []int) *TreeNode {
+	// write code here
+	if len(preOrder) == 0 {
+		return nil
+	}
+	root := &TreeNode{preOrder[0], nil, nil}
+	i := 0
+	for i = 0; i < len(vinOrder); i++ {
+		if vinOrder[i] == preOrder[0] {
+			break
+		}
+	}
+	root.Left = reConstructBinaryTree(preOrder[1:len(vinOrder[:i])+1], vinOrder[:i])
+	root.Right = reConstructBinaryTree(preOrder[len(vinOrder[:i])+1:], vinOrder[i+1:])
+	return root
+}
+
+// 中序遍历和后续遍历实现构建二叉树
+func reConstructBinaryTree2(vinOrder, postOrder []int) *TreeNode {
+	if len(vinOrder) < 1 && len(postOrder) < 1 {
+		return nil
+	}
+	i := 0
+	root := &TreeNode{postOrder[len(postOrder)-1], nil, nil}
+	for i = 0; i < len(vinOrder); i++ {
+		if vinOrder[i] == postOrder[len(postOrder)-1] {
+			break
+		}
+	}
+	root.Left = reConstructBinaryTree2(vinOrder[:i], postOrder[:i])
+	root.Right = reConstructBinaryTree2(vinOrder[i+1:], postOrder[i:len(postOrder)-1])
+	return root
+}
+
+// BM41 输出二叉树的右视图
+func solve(preOrder []int, inOrder []int) []int {
+	// write code here
+	root := reConstructBinaryTree(preOrder, inOrder)
+	arry := []*TreeNode{root}
+	res := []int{root.Val}
+	for len(arry) > 0 {
+		midarry := []*TreeNode{} //用于记录下一层的叶子
+		for _, node := range arry {
+			if node.Left != nil {
+				midarry = append(midarry, node.Left)
+			}
+			if node.Right != nil {
+				midarry = append(midarry, node.Right)
+			}
+		}
+		if len(midarry) > 0 {
+			l := len(midarry) - 1
+			res = append(res, midarry[l].Val)
+		}
+		arry = midarry //移动到下一层
+	}
+	return res
 }
