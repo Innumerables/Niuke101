@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // 生成相应的二维数组
 func createArry(l, m int) [][]int {
@@ -33,21 +36,24 @@ func main() {
 	// fmt.Println("cap:", cap(string_slice))
 	// tt, _ := strconv.Atoi(string_slice[4])
 	// fmt.Printf("%T,%v", tt, tt)
-	root := &TreeNode{
-		Val: 1,
-		Left: &TreeNode{
-			Val: 2,
-			Left: &TreeNode{
-				Val: 4,
-			},
-			Right: &TreeNode{
-				Val: 5,
-			},
-		},
-		Right: &TreeNode{
-			Val: 3,
-		},
-	}
-	res := preorderTraversal(root)
-	fmt.Println(res)
+	// root := &TreeNode{
+	// 	Val: 1,
+	// 	Left: &TreeNode{
+	// 		Val: 2,
+	// 		Left: &TreeNode{
+	// 			Val: 4,
+	// 		},
+	// 		Right: &TreeNode{
+	// 			Val: 5,
+	// 		},
+	// 	},
+	// 	Right: &TreeNode{
+	// 		Val: 3,
+	// 	},
+	// }
+	// res := preorderTraversal(root)
+	// fmt.Println(res)
+	s := "jklasd"
+	t := strings.Split(s, ",")
+	fmt.Printf("%T", t)
 }
