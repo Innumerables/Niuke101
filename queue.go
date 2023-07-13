@@ -88,3 +88,38 @@ func isValid(s string) bool {
 	}
 	return true
 }
+
+//BM45 滑动窗口最大值
+func maxInWindows(num []int, size int) []int {
+	// write code here
+	mid := []int{}
+	res := []int{}
+
+	for i := 0; i < len(num); i++ {
+		for len(mid) > 0 && mid[len(mid)-1] < num[i] {
+			mid = mid[:len(mid)-1]
+		}
+		mid = append(mid, num[i])
+		if i >= size && mid[0] == num[i-size] { //当该最大值在滑动窗口外时，删除该元素
+			mid = mid[1:]
+		}
+		if i >= size-1 {
+			res = append(res, mid[0])
+		}
+	}
+	return res
+}
+
+//BM46 最小的k个数
+func GetLeastNumbers_Solution(input []int, k int) []int {
+	// write code here
+	input = MergeSort(input) //利用归并排序得到排好序的切片
+	return input[:k]
+}
+
+//BM 47 寻找第k大的数
+func findKth(a []int, n int, K int) int {
+	// write code here
+	a = MergeSort(a) //利用归并排序得到排好序的切片
+	return a[K-1]
+}
