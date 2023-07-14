@@ -506,7 +506,7 @@ func reConstructBinaryTree2(vinOrder, postOrder []int) *TreeNode {
 }
 
 // BM41 输出二叉树的右视图
-func solve(preOrder []int, inOrder []int) []int {
+func solve1(preOrder []int, inOrder []int) []int {
 	// write code here
 	root := reConstructBinaryTree(preOrder, inOrder)
 	arry := []*TreeNode{root}

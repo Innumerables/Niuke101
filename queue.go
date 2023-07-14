@@ -121,5 +121,67 @@ func GetLeastNumbers_Solution(input []int, k int) []int {
 func findKth(a []int, n int, K int) int {
 	// write code here
 	a = MergeSort(a) //利用归并排序得到排好序的切片
-	return a[K-1]
+	return a[n-K]
+}
+
+//BM48 数据流中的中位数
+var res = []int{}
+
+func Insert(num int) {
+	res = append(res, num)
+}
+
+func GetMedian() float64 {
+	s := MergeSort(res)
+	if len(s)%2 == 0 {
+		return (float64(s[(len(s))/2-1]) + float64(s[len(s)/2])) / 2.0
+	} else {
+		return float64(s[len(s)/2])
+	}
+}
+
+//BM49 表达式求值
+
+func solve(s string) int {
+	sum := 0 //记录当前操作数
+	op := byte('+')
+	stack := []int{} //记录所有的操作数和
+	for i := 0; i < len(s); i++ {
+		if s[i] == '(' { //当为括号时用递归实现求值
+			count := 1
+			start, end := i+1, i+1
+			for count != 0 {
+				if s[end] == '(' {
+					count += 1
+				}
+				if s[end] == ')' {
+					count -= 1
+				}
+				end += 1
+			}
+			i = end - 1
+			sum = solve(s[start:end])
+		}
+		if s[i] >= '0' && s[i] <= '9' {
+			sum = 10*sum + int(s[i]-'0') //操作数可能大于10，大于10的位数在字符串中占多个位置，需计算
+		}
+		if s[i] == '+' || s[i] == '-' || s[i] == '*' || i == len(s)-1 { //首次设置op为+,当遇到下一个运算符时将前一个数字加入栈内
+			switch op {
+			case '+':
+				stack = append(stack, sum)
+			case '-':
+				stack = append(stack, -sum)
+			case '*':
+				stack[len(stack)-1] = stack[len(stack)-1] * sum //乘时直接在前一个值上做改变
+			}
+			sum = 0
+			op = s[i] //改变当前运算符，以计算前一组值
+		}
+	}
+	result := 0
+	for i := 0; i < len(stack); i++ {
+		result += stack[i]
+	}
+
+	return result
 }
