@@ -4,5 +4,5 @@ package main
 
 func permute(num []int) [][]int {
 	// write code here
-	result := [][]int{}
+	
 }

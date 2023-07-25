@@ -103,7 +103,6 @@ func solves(IP string) string {
 				return "Neither"
 			}
 			for k, s := range res[i] {
-				//每个“位”里第一个是数字0，直接下个循环
 				if k == 0 && s == '0' {
 					continue
 				}
@@ -119,4 +118,37 @@ func solves(IP string) string {
 		}
 		return "IPv6"
 	}
+}
+
+// BM86 大数加法
+func solve2(s string, t string) string {
+	// write code here
+	if len(s) == 0 {
+		return t
+	}
+	if len(t) == 0 {
+		return s
+	}
+	slen := len(s) - 1
+	tlen := len(t) - 1
+	res := ""
+	tmp := 0
+	for slen >= 0 || tlen >= 0 {
+		snum, tnum := 0, 0
+		if slen >= 0 {
+			snum = int(s[slen] - '0')
+			slen--
+		}
+		if tlen >= 0 {
+			tnum = int(t[tlen] - '0')
+			tlen--
+		}
+		tmp = tmp + snum + tnum
+		res = strconv.Itoa(tmp%10) + res
+		tmp = tmp / 10
+	}
+	if tmp != 0 { //tmp！=0时说明第一位向前进一因此加上第一位
+		res = "1" + res
+	}
+	return res
 }
