@@ -119,3 +119,13 @@ func minWindow(S string, T string) string {
 	}
 	return string(s[start : end+1])
 }
+
+//BM91 反转字符串
+func solve11(str string) string {
+	// write code here
+	s := []byte(str)
+	for i := 0; i < len(s)/2; i++ {
+		s[i], s[len(s)-i-1] = s[len(s)-i-1], s[i]
+	}
+	return string(s)
+}
