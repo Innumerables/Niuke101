@@ -129,3 +129,56 @@ func solve11(str string) string {
 	}
 	return string(s)
 }
+
+//BM92 最长无重复子数组
+func maxLength(arr []int) int {
+	// write code here
+	mid := map[int]int{}
+	max := 0
+	t := 0
+	for i := 0; i < len(arr); i++ {
+		v, ok := mid[arr[i]]
+		if ok {
+			t = max1(v+1, t) //若相等则判断，该相等的位置和最开始的位置谁大，取大的计算当前长度
+		}
+		max = max1(max, i-t+1) //计算最长长度
+		mid[arr[i]] = i
+	}
+	return max
+}
+func max1(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+//BM93 盛水最多的容器
+func maxArea(height []int) int {
+	// write code here
+	left := 0
+	right := len(height)
+	max := 0
+	for left < right {
+		min := minx(height[left], height[right])
+		sum := min * (right - left)
+		if sum > max {
+			max = sum
+		}
+		if height[left] < height[right] { //左边小移动左边
+			left++
+		} else {
+			right--
+		}
+	}
+	return max
+}
+
+func minx(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
+
+//BM94 接雨水问题
