@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 // 生成相应的二维数组
@@ -19,41 +18,51 @@ func createArry(l, m int) [][]int {
 }
 
 // 牛客101
-func main() {
-	// list := []int{1, 4, 3, 5, 2, 9, 0, 10, 7, 100}
-	// list = HeapSort(list)
-	// fmt.Print(list)
-	// l := findPeakElement(list)
-	// fmt.Println(l)
-	// a := []int{1, 2, 3, 4, 5, 6, 7, 0}
-	// b := InversePairs(a)
-	// fmt.Println(b)
-	// demo := "1.01.01.21.00"
-	// string_slice := strings.Split(demo, ".")
+func test_CompletePack1(weight, value []int, bagWeight int) int {
+	// 定义dp数组 和初始化
+	dp := make([]int, bagWeight+1)
+	// 遍历顺序
+	for i := 0; i < len(weight); i++ {
+		// 正序会多次添加 value[i]
+		for j := weight[i]; j <= bagWeight; j++ {
+			// 推导公式
+			dp[j] = maxs(dp[j], dp[j-weight[i]]+value[i])
+			// debug
+			//fmt.Println(dp)
+		}
+	}
+	return dp[bagWeight]
+}
 
-	// fmt.Println("result:", string_slice)
-	// fmt.Println("len:", len(string_slice))
-	// fmt.Println("cap:", cap(string_slice))
-	// tt, _ := strconv.Atoi(string_slice[4])
-	// fmt.Printf("%T,%v", tt, tt)
-	// root := &TreeNode{
-	// 	Val: 1,
-	// 	Left: &TreeNode{
-	// 		Val: 2,
-	// 		Left: &TreeNode{
-	// 			Val: 4,
-	// 		},
-	// 		Right: &TreeNode{
-	// 			Val: 5,
-	// 		},
-	// 	},
-	// 	Right: &TreeNode{
-	// 		Val: 3,
-	// 	},
-	// }
-	// res := preorderTraversal(root)
-	// fmt.Println(res)
-	s := "jklasd"
-	t := strings.Split(s, ",")
-	fmt.Printf("%T", t)
+// test_CompletePack2 先遍历背包, 在遍历物品
+func test_CompletePack2(weight, value []int, bagWeight int) int {
+	// 定义dp数组 和初始化
+	dp := make([]int, bagWeight+1)
+	// 遍历顺序
+	// j从0 开始
+	for j := 0; j <= bagWeight; j++ {
+		for i := 0; i < len(weight); i++ {
+			if j >= weight[i] {
+				// 推导公式
+				dp[j] = maxs(dp[j], dp[j-weight[i]]+value[i])
+			}
+			// debug
+			//fmt.Println(dp)
+		}
+	}
+	return dp[bagWeight]
+}
+
+func maxs(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func main() {
+	weight := []int{1, 1, 1}
+	price := []int{1, 1, 1}
+	fmt.Println(test_CompletePack1(weight, price, 4))
+	fmt.Println(test_CompletePack2(weight, price, 4))
 }
